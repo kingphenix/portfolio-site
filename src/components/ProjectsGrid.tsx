@@ -4,11 +4,59 @@ import React, { useRef, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import ProjectCard, { ProjectProps } from './ProjectCard';
 
-interface ProjectsGridProps {
-  projects: ProjectProps[];
-}
+// Sample project data
+const projects: ProjectProps[] = [
+  {
+    title: 'Modern E-commerce Platform',
+    description: 'A full-featured online store with cart functionality, payment processing, and admin dashboard.',
+    imageSrc: '/placeholder-profile.svg', // Replace with actual project image
+    tags: ['Frontend', 'API', 'UI/UX'],
+    liveUrl: 'https://example.com',
+    githubUrl: 'https://github.com/example/project'
+  },
+  {
+    title: 'Workflow Automation Tool',
+    description: 'Custom n8n workflows that connect various services and automate repetitive tasks.',
+    imageSrc: '/placeholder-profile.svg', // Replace with actual project image
+    tags: ['Automation', 'API'],
+    liveUrl: 'https://example.com',
+    githubUrl: 'https://github.com/example/project'
+  },
+  {
+    title: 'Portfolio Website',
+    description: 'A responsive portfolio site built with Next.js, Tailwind CSS, and Framer Motion.',
+    imageSrc: '/placeholder-profile.svg', // Replace with actual project image
+    tags: ['Frontend', 'UI/UX'],
+    liveUrl: 'https://example.com',
+    githubUrl: 'https://github.com/example/project'
+  },
+  {
+    title: 'API Integration Service',
+    description: 'A service that connects multiple APIs and provides a unified interface for data access.',
+    imageSrc: '/placeholder-profile.svg', // Replace with actual project image
+    tags: ['API', 'Automation'],
+    liveUrl: 'https://example.com',
+    githubUrl: 'https://github.com/example/project'
+  },
+  {
+    title: 'Dashboard UI',
+    description: 'A clean, modern dashboard interface with interactive charts and data visualization.',
+    imageSrc: '/placeholder-profile.svg', // Replace with actual project image
+    tags: ['Frontend', 'UI/UX'],
+    liveUrl: 'https://example.com',
+    githubUrl: 'https://github.com/example/project'
+  },
+  {
+    title: 'Mobile App Prototype',
+    description: 'A prototype for a mobile application with focus on user experience and clean design.',
+    imageSrc: '/placeholder-profile.svg', // Replace with actual project image
+    tags: ['UI/UX', 'Frontend'],
+    liveUrl: 'https://example.com',
+    githubUrl: 'https://github.com/example/project'
+  }
+];
 
-export default function ProjectsGrid({ projects }: ProjectsGridProps) {
+export default function ProjectsGrid() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);

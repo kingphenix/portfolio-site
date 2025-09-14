@@ -1,33 +1,52 @@
+'use client';
+
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Montserrat, Open_Sans } from "next/font/google";
+import { AnimatePresence, motion } from "framer-motion";
+import { usePathname } from "next/navigation";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const montserrat = Montserrat({
+  variable: "--font-montserrat",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const openSans = Open_Sans({
+  variable: "--font-open-sans",
   subsets: ["latin"],
 });
-
-export const metadata: Metadata = {
-  title: "Portfolio | Developer & Designer",
-  description: "Personal portfolio showcasing my projects and skills",
-};
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = usePathname();
+
+  const slideIn = {
+    initial: { opacity: 0, x: 200 },
+    animate: { opacity: 1, x: 0 },
+    exit: { opacity: 0, x: -200 },
+  };
+
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${montserrat.variable} ${openSans.variable} antialiased bg-background text-text`}
       >
-        {children}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={pathname}
+            variants={slideIn}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+            style={{ position: "relative" }}
+          >
+            {children}
+          </motion.div>
+        </AnimatePresence>
       </body>
     </html>
   );

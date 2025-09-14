@@ -6,28 +6,54 @@ interface Particle {
   x: number;
   y: number;
   size: number;
+  speedX: number;
+  speedY: number;
   color: string;
+  isShootingStar: boolean;
+  length?: number;
+  opacity?: number;
 }
 
 const ParticleBackground: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particles = useRef<Particle[]>([]);
+  const animationFrameId = useRef<number | null>(null);
 
-  const createParticle = useCallback((): Particle => {
+  const createParticle = useCallback((isShootingStar = false): Particle => {
     const canvas = canvasRef.current;
     if (!canvas) return {} as Particle;
 
     const x = Math.random() * canvas.width;
     const y = Math.random() * canvas.height;
-    const size = Math.random() * 2 + 1; // Regular stars
-    const color = 'rgba(255, 255, 255, 0.8)'; // Regular stars color
+    const size = isShootingStar ? Math.random() * 3 + 1.5 : Math.random() * 1.5 + 0.5; // Adjusted size for 4-sided stars
+    const color = isShootingStar ? 'rgba(255, 255, 255, 1)' : 'rgba(255, 255, 255, 0.8)'; // Brighter for shooting stars
 
-    return {
-      x,
-      y,
-      size,
-      color,
-    };
+    if (isShootingStar) {
+      const angle = Math.random() * Math.PI * 2; // Random direction
+      const speed = Math.random() * 7 + 3; // Faster speed
+      const length = Math.random() * 70 + 40; // Longer tail
+      return {
+        x,
+        y,
+        size,
+        speedX: Math.cos(angle) * speed,
+        speedY: Math.sin(angle) * speed,
+        color,
+        isShootingStar,
+        length,
+        opacity: 1,
+      };
+    } else {
+      return {
+        x,
+        y,
+        size,
+        speedX: (Math.random() - 0.5) * 0.5, // Slower, subtle movement for regular stars
+        speedY: (Math.random() - 0.5) * 0.5,
+        color,
+        isShootingStar,
+      };
+    }
   }, []);
 
   const initParticles = useCallback(() => {
@@ -47,11 +73,34 @@ const ParticleBackground: React.FC = () => {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    particles.current.forEach((particle) => {
-      ctx.beginPath();
-      ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-      ctx.fillStyle = particle.color;
-      ctx.fill();
+    particles.current.forEach((particle, index) => {
+      if (particle.isShootingStar) {
+        // Draw shooting star with a tail
+        ctx.beginPath();
+        ctx.moveTo(particle.x, particle.y);
+        ctx.lineTo(particle.x - particle.speedX * (particle.length || 0), particle.y - particle.speedY * (particle.length || 0));
+        ctx.strokeStyle = `rgba(255, 255, 255, ${particle.opacity || 1})`;
+        ctx.lineWidth = particle.size;
+        ctx.stroke();
+
+        // Fade out and remove shooting stars
+        if (particle.opacity !== undefined) {
+          particle.opacity -= 0.01;
+          if (particle.opacity <= 0) {
+            particles.current.splice(index, 1);
+          }
+        }
+      } else {
+        // Draw regular star
+        ctx.beginPath();
+        ctx.moveTo(particle.x, particle.y - particle.size);
+        ctx.lineTo(particle.x + particle.size, particle.y);
+        ctx.lineTo(particle.x, particle.y + particle.size);
+        ctx.lineTo(particle.x - particle.size, particle.y);
+        ctx.closePath();
+        ctx.fillStyle = particle.color;
+        ctx.fill();
+      }
     });
   }, []);
 
@@ -71,7 +120,7 @@ const ParticleBackground: React.FC = () => {
     });
 
     // Occasionally add a shooting star
-    if (Math.random() < 0.01) { // Increased probability of shooting stars
+    if (Math.random() < 0.002) { // Reduced probability of shooting stars
       particles.current.push(createParticle(true));
     }
   }, [createParticle]);
@@ -81,8 +130,10 @@ const ParticleBackground: React.FC = () => {
     const ctx = canvas?.getContext('2d');
     if (!ctx) return;
 
+    updateParticles();
     drawParticles(ctx);
-  }, [drawParticles]);
+    animationFrameId.current = requestAnimationFrame(animate);
+  }, [updateParticles, drawParticles]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -98,11 +149,15 @@ const ParticleBackground: React.FC = () => {
     window.addEventListener('resize', setCanvasSize);
 
     initParticles();
+    animationFrameId.current = requestAnimationFrame(animate);
 
     return () => {
       window.removeEventListener('resize', setCanvasSize);
+      if (animationFrameId.current) {
+        cancelAnimationFrame(animationFrameId.current);
+      }
     };
-  }, [initParticles]);
+  }, [initParticles, animate]);
 
   return (
     <canvas

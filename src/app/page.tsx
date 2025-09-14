@@ -7,36 +7,7 @@ import Footer from "@/components/Footer";
 import CodeAnimation from "@/components/CodeAnimation";
 import PortraitImage from "@/components/PortraitImage";
 import SkillBadges from "@/components/SkillBadges";
-import ProjectCard, { ProjectProps } from "@/components/ProjectCard";
-import ProjectsGrid from "@/components/ProjectsGrid";
 import ParticleBackground from "@/components/ParticleBackground";
-
-const projects: ProjectProps[] = [
-  {
-    title: "Project One",
-    description: "A brief description of Project One. This project showcases my skills in [Technology 1] and [Technology 2].",
-    imageSrc: "/Portfolio-img.JPG", // Placeholder image, replace with actual project image
-    tags: ["React", "Next.js", "TailwindCSS"],
-    liveUrl: "#",
-    githubUrl: "#",
-  },
-  {
-    title: "Project Two",
-    description: "A brief description of Project Two. This project involved [specific challenge] and utilized [Technology 3].",
-    imageSrc: "/file.svg", // Placeholder image
-    tags: ["TypeScript", "Node.js", "Express.js"],
-    liveUrl: "#",
-    githubUrl: "#",
-  },
-  {
-    title: "Project Three",
-    description: "A brief description of Project Three. I focused on [aspect] and integrated [Technology 4].",
-    imageSrc: "/window.svg", // Placeholder image
-    tags: ["Python", "Django", "PostgreSQL"],
-    liveUrl: "#",
-    githubUrl: "#",
-  },
-];
 
 export default function Home() {
   return (
@@ -45,53 +16,46 @@ export default function Home() {
       <main className="bg-background">
         {/* Hero Section */}
         <section className="min-h-screen flex items-center justify-center pt-20 pb-16 relative overflow-hidden">
-          {/* Animated Background */}
+                   {/* Animated Background */}
+                   <ParticleBackground />
 
           <div className="container mx-auto px-4 md:px-6 relative z-10">
             <div className="flex flex-col md:flex-row items-center justify-between gap-12">
               <motion.div
                 className="md:w-1/2"
-                initial={{ opacity: 0, y: 50 }}
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: 0.8,
-                  ease: "easeOut",
-                  staggerChildren: 0.2,
-                }}
+                transition={{ duration: 0.5 }}
               >
                 <motion.h1
                   className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4"
-                  variants={{
-                    hidden: { opacity: 0, y: 20 },
-                    visible: { opacity: 1, y: 0 },
-                  }}
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, delay: 0.2 }}
                 >
                   Hi, I'm <span className="gradient-text">Joseph</span> 👋
                 </motion.h1>
                 <motion.h2
                   className="text-2xl md:text-3xl text-textSecondary mb-6"
-                  variants={{
-                    hidden: { opacity: 0, y: 20 },
-                    visible: { opacity: 1, y: 0 },
-                  }}
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, delay: 0.4 }}
                 >
                   Frontend Developer & Automation Builder
                 </motion.h2>
                 <motion.p
                   className="text-lg mb-8 text-textSecondary max-w-lg"
-                  variants={{
-                    hidden: { opacity: 0, y: 20 },
-                    visible: { opacity: 1, y: 0 },
-                  }}
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, delay: 0.6 }}
                 >
                   I design sleek interfaces and connect workflows with n8n.
                 </motion.p>
                 <motion.div
                   className="flex flex-wrap gap-4"
-                  variants={{
-                    hidden: { opacity: 0, y: 20 },
-                    visible: { opacity: 1, y: 0 },
-                  }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, delay: 0.8 }}
                 >
                   <a
                     href="#projects"
@@ -109,10 +73,9 @@ export default function Home() {
               </motion.div>
               <motion.div
                 className="md:w-1/2 flex justify-center h-80 md:h-96"
-                variants={{
-                  hidden: { opacity: 0, scale: 0.8 },
-                  visible: { opacity: 1, scale: 1 },
-                }}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
               >
                 <div className="relative w-full h-full">
                   <CodeAnimation />
@@ -190,7 +153,62 @@ export default function Home() {
             </motion.div>
 
             {/* Project cards will be added here */}
-            <ProjectsGrid projects={projects} />
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="bg-background border border-gray-800 rounded-lg overflow-hidden">
+                <div className="h-48 bg-gray-800 flex items-center justify-center">
+                  <p className="text-textSecondary">Project Image</p>
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold mb-2">Project Title</h3>
+                  <p className="text-textSecondary mb-4">Project description goes here. This is a brief overview of what the project is about.</p>
+                  <div className="flex gap-2 mb-4">
+                    <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded">React</span>
+                    <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded">Tailwind</span>
+                  </div>
+                  <div className="flex gap-3">
+                    <a href="#" className="text-primary hover:underline">View Demo</a>
+                    <a href="#" className="text-primary hover:underline">Source Code</a>
+                  </div>
+                </div>
+              </div>
+
+              {/* Repeat for other projects */}
+              <div className="bg-background border border-gray-800 rounded-lg overflow-hidden">
+                <div className="h-48 bg-gray-800 flex items-center justify-center">
+                  <p className="text-textSecondary">Project Image</p>
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold mb-2">Project Title</h3>
+                  <p className="text-textSecondary mb-4">Project description goes here. This is a brief overview of what the project is about.</p>
+                  <div className="flex gap-2 mb-4">
+                    <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded">Next.js</span>
+                    <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded">TypeScript</span>
+                  </div>
+                  <div className="flex gap-3">
+                    <a href="#" className="text-primary hover:underline">View Demo</a>
+                    <a href="#" className="text-primary hover:underline">Source Code</a>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-background border border-gray-800 rounded-lg overflow-hidden">
+                <div className="h-48 bg-gray-800 flex items-center justify-center">
+                  <p className="text-textSecondary">Project Image</p>
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold mb-2">Project Title</h3>
+                  <p className="text-textSecondary mb-4">Project description goes here. This is a brief overview of what the project is about.</p>
+                  <div className="flex gap-2 mb-4">
+                    <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded">React</span>
+                    <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded">Framer Motion</span>
+                  </div>
+                  <div className="flex gap-3">
+                    <a href="#" className="text-primary hover:underline">View Demo</a>
+                    <a href="#" className="text-primary hover:underline">Source Code</a>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 

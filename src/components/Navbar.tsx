@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import DarkModeToggle from './DarkModeToggle';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -40,7 +39,6 @@ const Navbar = () => {
               {item.name}
             </Link>
           ))}
-          <DarkModeToggle />
           <a 
             href="/resume.pdf" 
             target="_blank" 
@@ -87,7 +85,6 @@ const Navbar = () => {
               {item.name}
             </Link>
           ))}
-          <DarkModeToggle />
           <a 
             href="/resume.pdf" 
             target="_blank" 

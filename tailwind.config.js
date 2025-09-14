@@ -9,14 +9,8 @@ module.exports = {
     extend: {
       colors: {
         primary: '#6C63FF',
-        text: {
-          DEFAULT: '#FFFFFF',
-          dark: '#1A1A1A', // Example dark text color
-        },
-        background: {
-          DEFAULT: '#0E0E0E',
-          dark: '#FFFFFF', // Example dark background color
-        },
+        background: '#0E0E0E',
+        text: '#FFFFFF',
         textSecondary: '#BFBFBF',
         accent: {
           DEFAULT: '#6C63FF',
@@ -27,11 +21,10 @@ module.exports = {
         'gradient-accent': 'linear-gradient(135deg, #6C63FF, #A259FF)'
       },
       fontFamily: {
-        sans: ['var(--font-geist-sans)'],
-        mono: ['var(--font-geist-mono)'],
+        sans: ['var(--font-open-sans)', 'sans-serif'],
+        heading: ['var(--font-montserrat)', 'sans-serif'],
       },
     },
   },
   plugins: [],
-  darkMode: 'class',
-};
+}
