@@ -14,7 +14,10 @@ interface Particle {
   opacity?: number;
 }
 
-const ParticleBackground: React.FC = () => {
+interface ParticleBackgroundProps {
+}
+
+const ParticleBackground: React.FC<ParticleBackgroundProps> = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particles = useRef<Particle[]>([]);
   const animationFrameId = useRef<number | null>(null);
@@ -25,13 +28,14 @@ const ParticleBackground: React.FC = () => {
 
     const x = Math.random() * canvas.width;
     const y = Math.random() * canvas.height;
-    const size = isShootingStar ? Math.random() * 3 + 1.5 : Math.random() * 1.5 + 0.5; // Adjusted size for 4-sided stars
-    const color = isShootingStar ? 'rgba(255, 255, 255, 1)' : 'rgba(255, 255, 255, 0.8)'; // Brighter for shooting stars
+
+    const size = isShootingStar ? Math.random() * 3 + 1.5 : Math.random() * 1.5 + 0.5;
+    const color = isShootingStar ? 'rgba(255, 255, 255, 1)' : 'rgba(255, 255, 255, 0.8)';
 
     if (isShootingStar) {
-      const angle = Math.random() * Math.PI * 2; // Random direction
-      const speed = Math.random() * 7 + 3; // Faster speed
-      const length = Math.random() * 70 + 40; // Longer tail
+      const angle = Math.random() * Math.PI * 2;
+      const speed = Math.random() * 7 + 3;
+      const length = Math.random() * 70 + 40;
       return {
         x,
         y,
@@ -48,7 +52,7 @@ const ParticleBackground: React.FC = () => {
         x,
         y,
         size,
-        speedX: (Math.random() - 0.5) * 0.5, // Slower, subtle movement for regular stars
+        speedX: (Math.random() - 0.5) * 0.5,
         speedY: (Math.random() - 0.5) * 0.5,
         color,
         isShootingStar,
@@ -61,7 +65,7 @@ const ParticleBackground: React.FC = () => {
     if (!canvas) return;
 
     particles.current = [];
-    const numberOfParticles = 200; // Increased number of regular stars
+    const numberOfParticles = 200;
     for (let i = 0; i < numberOfParticles; i++) {
       particles.current.push(createParticle());
     }
@@ -75,7 +79,6 @@ const ParticleBackground: React.FC = () => {
 
     particles.current.forEach((particle, index) => {
       if (particle.isShootingStar) {
-        // Draw shooting star with a tail
         ctx.beginPath();
         ctx.moveTo(particle.x, particle.y);
         ctx.lineTo(particle.x - particle.speedX * (particle.length || 0), particle.y - particle.speedY * (particle.length || 0));
@@ -83,7 +86,6 @@ const ParticleBackground: React.FC = () => {
         ctx.lineWidth = particle.size;
         ctx.stroke();
 
-        // Fade out and remove shooting stars
         if (particle.opacity !== undefined) {
           particle.opacity -= 0.01;
           if (particle.opacity <= 0) {
@@ -91,7 +93,6 @@ const ParticleBackground: React.FC = () => {
           }
         }
       } else {
-        // Draw regular star
         ctx.beginPath();
         ctx.moveTo(particle.x, particle.y - particle.size);
         ctx.lineTo(particle.x + particle.size, particle.y);
@@ -112,15 +113,13 @@ const ParticleBackground: React.FC = () => {
       particle.x += particle.speedX;
       particle.y += particle.speedY;
 
-      // Wrap particles around the canvas
       if (particle.x > canvas.width + particle.size) particle.x = -particle.size;
       if (particle.x < -particle.size) particle.x = canvas.width + particle.size;
       if (particle.y > canvas.height + particle.size) particle.y = -particle.size;
       if (particle.y < -particle.size) particle.y = canvas.height + particle.size;
     });
 
-    // Occasionally add a shooting star
-    if (Math.random() < 0.002) { // Reduced probability of shooting stars
+    if (Math.random() < 0.002) {
       particles.current.push(createParticle(true));
     }
   }, [createParticle]);
@@ -142,7 +141,7 @@ const ParticleBackground: React.FC = () => {
     const setCanvasSize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
-      initParticles(); // Re-initialize particles on resize
+      initParticles();
     };
 
     setCanvasSize();
@@ -163,7 +162,6 @@ const ParticleBackground: React.FC = () => {
     <canvas
       ref={canvasRef}
       className="absolute inset-0 z-10"
-      // Removed background: 'black' as the parent section already has a black background
     ></canvas>
   );
 };

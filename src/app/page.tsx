@@ -1,13 +1,14 @@
 'use client';
 
+import { useState } from 'react';
 import Image from "next/image";
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CodeAnimation from "@/components/CodeAnimation";
 import PortraitImage from "@/components/PortraitImage";
-import SkillBadges from "@/components/SkillBadges";
 import ParticleBackground from "@/components/ParticleBackground";
+import StackBadges from "@/components/StackBadges";
 
 export default function Home() {
   return (
@@ -16,8 +17,8 @@ export default function Home() {
       <main className="bg-background">
         {/* Hero Section */}
         <section className="min-h-screen flex items-center justify-center pt-20 pb-16 relative overflow-hidden">
-                   {/* Animated Background */}
-                   <ParticleBackground />
+          {/* Animated Background */}
+          <ParticleBackground />
 
           <div className="container mx-auto px-4 md:px-6 relative z-10">
             <div className="flex flex-col md:flex-row items-center justify-between gap-12">
@@ -33,7 +34,7 @@ export default function Home() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, delay: 0.2 }}
                 >
-                  Hi, I'm <span className="gradient-text">Joseph</span> 👋
+                  Hi, I'm <span className="gradient-text">Joseph</span>
                 </motion.h1>
                 <motion.h2
                   className="text-2xl md:text-3xl text-textSecondary mb-6"
@@ -41,7 +42,7 @@ export default function Home() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, delay: 0.4 }}
                 >
-                  Frontend Developer & Automation Builder
+                  Sofware Developer & Automation Expert
                 </motion.h2>
                 <motion.p
                   className="text-lg mb-8 text-textSecondary max-w-lg"
@@ -49,7 +50,7 @@ export default function Home() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, delay: 0.6 }}
                 >
-                  I design sleek interfaces and connect workflows with n8n.
+                  As development evolves into new frontiers with AI, you need more than a front-end dev who just writes responsive code and that's where i come in.
                 </motion.p>
                 <motion.div
                   className="flex flex-wrap gap-4"
@@ -123,13 +124,10 @@ export default function Home() {
                 <p className="text-textSecondary mb-4">
                   I'm a passionate developer focused on creating modern, responsive web experiences with clean code and intuitive interfaces.
                 </p>
-                <p className="text-textSecondary mb-6">
-                  Specialized in <span className="text-primary font-medium">React</span>, <span className="text-primary font-medium">Next.js</span>, <span className="text-primary font-medium">Tailwind</span>, and workflow automation with <span className="text-primary font-medium">n8n</span>. I combine technical expertise with creative problem-solving to build solutions that make an impact.
-                </p>
-                
+
                 {/* Skill badges with icons */}
                 <h4 className="text-xl font-semibold mb-2">My Toolkit</h4>
-                <SkillBadges />
+                <StackBadges />
               </motion.div>
             </div>
           </div>
