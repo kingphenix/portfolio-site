@@ -1,13 +1,45 @@
 @import "tailwindcss";
+@import "tw-animate-css"; /* Added tw-animate-css import */
 
 :root {
-  --background: #0E0E0E;
-  --foreground: #FFFFFF;
-  --text-secondary: #BFBFBF;
+  --background: #000000; /* black */
+  --foreground: #FFFFFF; /* white */
+  --text-secondary: #a3a3a3; /* neutral-400 for readability on black */
   --primary: #6C63FF;
   --accent-secondary: #A259FF;
   --font-montserrat: "Montserrat", sans-serif;
   --font-open-sans: "Open Sans", sans-serif;
+
+  /* New CSS Variables for colors */
+  --radius: 0.5rem;
+
+  --chart: 0 0% 50%;
+  --chart-foreground: 0 0% 100%;
+
+  --background-dark: 222.2 84% 4.9%;
+  --foreground-dark: 210 40% 98%;
+  --card-dark: 222.2 84% 4.9%;
+  --card-foreground-dark: 210 40% 98%;
+  --popover-dark: 222.2 84% 4.9%;
+  --popover-foreground-dark: 210 40% 98%;
+  --primary-dark: 217.2 91.2% 59.8%;
+  --primary-foreground-dark: 210 40% 98%;
+  --secondary-dark: 222.2 47.4% 11.2%;
+  --secondary-foreground-dark: 210 40% 98%;
+  --muted-dark: 217.2 32.4% 14.5%;
+  --muted-foreground-dark: 210 40% 98%;
+  --accent-dark: 217.2 32.4% 14.5%;
+  --accent-foreground-dark: 210 40% 98%;
+  --destructive-dark: 0 62.8% 30.6%;
+  --destructive-foreground-dark: 210 40% 98%;
+  --border-dark: 217.2 32.4% 14.5%;
+  --input-dark: 217.2 32.4% 14.5%;
+  --ring-dark: 217.2 91.2% 59.8%;
+
+  /* Sidebar specific variables */
+  --sidebar-width: 280px;
+  --sidebar-collapsed-width: 80px;
+  --sidebar-transition-duration: 0.3s;
 }
 
 @theme inline {
@@ -15,6 +47,29 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-open-sans);
   --font-heading: var(--font-montserrat);
+}
+
+/* Dark mode variant */
+[data-theme="dark"] {
+  --background: var(--background-dark);
+  --foreground: var(--foreground-dark);
+  --card: var(--card-dark);
+  --card-foreground: var(--card-foreground-dark);
+  --popover: var(--popover-dark);
+  --popover-foreground: var(--popover-foreground-dark);
+  --primary: var(--primary-dark);
+  --primary-foreground: var(--primary-foreground-dark);
+  --secondary: var(--secondary-dark);
+  --secondary-foreground: var(--secondary-foreground-dark);
+  --muted: var(--muted-dark);
+  --muted-foreground: var(--muted-foreground-dark);
+  --accent: var(--accent-dark);
+  --accent-foreground: var(--accent-foreground-dark);
+  --destructive: var(--destructive-dark);
+  --destructive-foreground: var(--destructive-foreground-dark);
+  --border: var(--border-dark);
+  --input: var(--input-dark);
+  --ring: var(--ring-dark);
 }
 
 body {
@@ -34,4 +89,40 @@ body {
 /* Custom gradient background class */
 .gradient-bg {
   background: linear-gradient(135deg, #6C63FF, #A259FF);
+}
+
+/* Advanced neon outline effect for nav links */
+.neon-link {
+  position: relative;
+  z-index: 0; /* create stacking context for pseudo-element */
+  isolation: isolate;
+}
+
+.neon-link::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 0.375rem; /* matches Tailwind rounded */
+  padding: 2px; /* border thickness */
+  background: linear-gradient(90deg, #39ff14, #7f00ff, #39ff14);
+  background-size: 200% 100%;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  opacity: 0;
+  transition: opacity .2s ease;
+  z-index: -1; /* render behind link content */
+  pointer-events: none;
+}
+
+.neon-link:hover::before, .neon-link:focus-visible::before {
+  opacity: 1;
+  animation: neon-flow 2s linear infinite;
+  filter: drop-shadow(0 0 4px #39ff14) drop-shadow(0 0 10px #7f00ff);
+}
+
+@keyframes neon-flow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
 }

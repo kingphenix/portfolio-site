@@ -1,11 +1,32 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { Grenze_Gotisch } from 'next/font/google';
+
+const gotisch = Grenze_Gotisch({ subsets: ['latin'], weight: ['400'], variable: '--font-gotisch' });
 import Link from 'next/link';
+import { NeonLink } from '@/components/ui/neon-link';
 import { motion } from 'framer-motion';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isHidden, setIsHidden] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentY = window.scrollY;
+      const isScrollingDown = currentY > lastScrollY;
+      // Hide on scroll down, show on scroll up. Keep visible if mobile menu is open.
+      if (!isOpen) {
+        setIsHidden(isScrollingDown && currentY > 10);
+      }
+      setLastScrollY(currentY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY, isOpen]);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -24,34 +45,28 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="fixed w-full z-50 bg-background/80 backdrop-blur-md py-4">
-      <div className="container mx-auto px-4 md:px-6 flex justify-between items-center">
-        <Link href="/" className="text-2xl font-bold gradient-text">Portfolio</Link>
+    <nav className={`fixed w-full z-50 bg-transparent backdrop-blur-md py-4 border-b border-neutral-900 transition-transform duration-300 ${isHidden ? '-translate-y-full' : 'translate-y-0'} ${gotisch.className}`}>
+      <div className="container mx-auto px-4 md:px-6 flex justify-between items-center relative">
+        <Link href="/" className="text-4xl font-bold gradient-text">Pheenix</Link>
         
         {/* Desktop Navigation */}
-        <div className="hidden md:flex space-x-8">
+        <div className="hidden md:flex space-x-8 absolute left-1/2 -translate-x-1/2">
           {navItems.map((item) => (
-            <Link 
+            <NeonLink 
               key={item.name} 
               href={item.path}
-              className="text-text hover:text-primary transition-colors duration-300"
+              className="text-xl text-white"
+              variant="ghost"
+              size="sm"
             >
               {item.name}
-            </Link>
+            </NeonLink>
           ))}
-          <a 
-            href="/resume.pdf" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="px-4 py-2 rounded-full gradient-bg text-white font-medium hover:opacity-90 transition-opacity"
-          >
-            Resume
-          </a>
         </div>
 
         {/* Mobile Menu Button */}
         <button 
-          className="md:hidden text-text focus:outline-none" 
+          className="md:hidden text-text focus:outline-none text-white" 
           onClick={toggleMenu}
           aria-label="Toggle menu"
         >
@@ -69,31 +84,24 @@ const Navbar = () => {
 
       {/* Mobile Navigation */}
       <motion.div 
-        className="md:hidden overflow-hidden"
+        className="md:hidden overflow-hidden bg-white"
         initial="closed"
         animate={isOpen ? "open" : "closed"}
         variants={menuVariants}
       >
-        <div className="container mx-auto px-4 py-4 flex flex-col space-y-4 bg-background/95">
+        <div className="container mx-auto px-4 py-4 flex flex-col space-y-4">
           {navItems.map((item) => (
-            <Link 
+            <NeonLink 
               key={item.name} 
               href={item.path}
-              className="text-text hover:text-primary transition-colors duration-300 py-2"
+              className="text-xl text-white"
+              variant="ghost"
+              size="default"
               onClick={() => setIsOpen(false)}
             >
               {item.name}
-            </Link>
+            </NeonLink>
           ))}
-          <a 
-            href="/resume.pdf" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="px-4 py-2 rounded-full gradient-bg text-white font-medium hover:opacity-90 transition-opacity w-fit"
-            onClick={() => setIsOpen(false)}
-          >
-            Resume
-          </a>
         </div>
       </motion.div>
     </nav>
