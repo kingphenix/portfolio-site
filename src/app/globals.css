@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import "tw-animate-css"; /* Added tw-animate-css import */
 
 :root {
   --background: #000000; /* black */
@@ -12,6 +11,13 @@
 
   /* New CSS Variables for colors */
   --radius: 0.5rem;
+
+  /* Neon brand colors used across effects */
+  --neon-magenta: #FF00FF;
+  --electric-cyan: #00FFFF;
+  /* RGB variants for gradients */
+  --neon-magenta-rgb: 255, 0, 255;
+  --electric-cyan-rgb: 0, 255, 255;
 
   --chart: 0 0% 50%;
   --chart-foreground: 0 0% 100%;
@@ -42,34 +48,37 @@
   --sidebar-transition-duration: 0.3s;
 }
 
-@theme inline {
+/* Tailwind v4 theme configuration (inline) */
+/* stylelint-disable-next-line at-rule-no-unknown */
+@theme {
   --color-background: var(--background);
+
   --color-foreground: var(--foreground);
   --font-sans: var(--font-open-sans);
   --font-heading: var(--font-montserrat);
 }
 
-/* Dark mode variant */
+/* Dark mode variant - use concrete hex to ensure valid colors */
 [data-theme="dark"] {
-  --background: var(--background-dark);
-  --foreground: var(--foreground-dark);
-  --card: var(--card-dark);
-  --card-foreground: var(--card-foreground-dark);
-  --popover: var(--popover-dark);
-  --popover-foreground: var(--popover-foreground-dark);
-  --primary: var(--primary-dark);
-  --primary-foreground: var(--primary-foreground-dark);
-  --secondary: var(--secondary-dark);
-  --secondary-foreground: var(--secondary-foreground-dark);
-  --muted: var(--muted-dark);
-  --muted-foreground: var(--muted-foreground-dark);
-  --accent: var(--accent-dark);
-  --accent-foreground: var(--accent-foreground-dark);
-  --destructive: var(--destructive-dark);
-  --destructive-foreground: var(--destructive-foreground-dark);
-  --border: var(--border-dark);
-  --input: var(--input-dark);
-  --ring: var(--ring-dark);
+  --background: #000000;
+  --foreground: #FFFFFF;
+  --card: #0A0A0A;
+  --card-foreground: #FFFFFF;
+  --popover: #0A0A0A;
+  --popover-foreground: #FFFFFF;
+  --primary: #6C63FF;
+  --primary-foreground: #FFFFFF;
+  --secondary: #111111;
+  --secondary-foreground: #FFFFFF;
+  --muted: #111111;
+  --muted-foreground: #E5E5E5;
+  --accent: #111111;
+  --accent-foreground: #FFFFFF;
+  --destructive: #7F1D1D;
+  --destructive-foreground: #FFFFFF;
+  --border: #1F2937;
+  --input: #1F2937;
+  --ring: #60A5FA;
 }
 
 body {
@@ -125,4 +134,77 @@ body {
 @keyframes neon-flow {
   0% { background-position: 0% 50%; }
   100% { background-position: 200% 50%; }
+}
+
+/* Glitch effect for text */
+.glitch {
+  position: relative;
+  display: inline-block;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--background);
+  overflow: hidden;
+  color: var(--neon-magenta);
+}
+
+.glitch::before {
+  left: 2px;
+  text-shadow: -2px 0 var(--electric-cyan);
+  animation: glitch-anim-1 2s infinite linear alternate-reverse;
+}
+
+.glitch::after {
+  left: -2px;
+  text-shadow: -2px 0 var(--neon-magenta);
+  animation: glitch-anim-2 2s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim-1 {
+  0% {
+    clip-path: inset(80% 0 0 0);
+  }
+  20% {
+    clip-path: inset(10% 0 80% 0);
+  }
+  40% {
+    clip-path: inset(40% 0 30% 0);
+  }
+  60% {
+    clip-path: inset(70% 0 10% 0);
+  }
+  80% {
+    clip-path: inset(20% 0 60% 0);
+  }
+  100% {
+    clip-path: inset(90% 0 0 0);
+  }
+}
+
+@keyframes glitch-anim-2 {
+  0% {
+    clip-path: inset(20% 0 60% 0);
+  }
+  20% {
+    clip-path: inset(90% 0 0 0);
+  }
+  40% {
+    clip-path: inset(10% 0 80% 0);
+  }
+  60% {
+    clip-path: inset(50% 0 20% 0);
+  }
+  80% {
+    clip-path: inset(0 0 90% 0);
+  }
+  100% {
+    clip-path: inset(70% 0 10% 0);
+  }
 }

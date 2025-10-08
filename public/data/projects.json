@@ -1,0 +1,50 @@
+[
+  {
+    "title": "Cyberpunk Dashboard",
+    "description": "A real-time analytics dashboard with neon-themed UI, featuring live data visualization and interactive charts.",
+    "imageSrc": "/placeholder-profile.svg",
+    "tags": ["Frontend", "UI/UX", "API"],
+    "liveUrl": "https://example.com/dashboard",
+    "githubUrl": "https://github.com/example/cyberpunk-dashboard"
+  },
+  {
+    "title": "AI Automation Suite",
+    "description": "Custom workflow automation tool that connects multiple AI services and automates repetitive development tasks.",
+    "imageSrc": "/placeholder-profile.svg",
+    "tags": ["Automation", "API"],
+    "liveUrl": "https://example.com/ai-suite",
+    "githubUrl": "https://github.com/example/ai-automation"
+  },
+  {
+    "title": "Neon Portfolio",
+    "description": "A futuristic portfolio website built with Next.js 15, featuring smooth animations and cyberpunk aesthetics.",
+    "imageSrc": "/placeholder-profile.svg",
+    "tags": ["Frontend", "UI/UX"],
+    "liveUrl": "https://example.com/portfolio",
+    "githubUrl": "https://github.com/example/neon-portfolio"
+  },
+  {
+    "title": "Blockchain Explorer",
+    "description": "A sleek blockchain data explorer with real-time transaction tracking and wallet analytics.",
+    "imageSrc": "/placeholder-profile.svg",
+    "tags": ["Frontend", "API"],
+    "liveUrl": "https://example.com/explorer",
+    "githubUrl": "https://github.com/example/blockchain-explorer"
+  },
+  {
+    "title": "Smart Contract Manager",
+    "description": "Web3 application for deploying and managing smart contracts with an intuitive cyberpunk interface.",
+    "imageSrc": "/placeholder-profile.svg",
+    "tags": ["Frontend", "API", "UI/UX"],
+    "liveUrl": "https://example.com/contracts",
+    "githubUrl": "https://github.com/example/contract-manager"
+  },
+  {
+    "title": "Holographic UI Kit",
+    "description": "A comprehensive component library featuring glassmorphic and holographic UI elements for modern web apps.",
+    "imageSrc": "/placeholder-profile.svg",
+    "tags": ["Frontend", "UI/UX"],
+    "liveUrl": "https://example.com/ui-kit",
+    "githubUrl": "https://github.com/example/holographic-ui"
+  }
+]

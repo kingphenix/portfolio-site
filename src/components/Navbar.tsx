@@ -45,9 +45,9 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className={`fixed w-full z-50 bg-transparent backdrop-blur-md py-4 border-b border-neutral-900 transition-transform duration-300 ${isHidden ? '-translate-y-full' : 'translate-y-0'} ${gotisch.className}`}>
+    <nav className={`fixed w-full z-50 bg-black/20 backdrop-blur-xl py-4 border-b border-white/10 transition-transform duration-300 ${isHidden ? '-translate-y-full' : 'translate-y-0'} ${gotisch.className}`}>
       <div className="container mx-auto px-4 md:px-6 flex justify-between items-center relative">
-        <Link href="/" className="text-4xl font-bold gradient-text">Pheenix</Link>
+        <Link href="/" className="text-4xl font-bold gradient-text text-white">Pheenix</Link>
         
         {/* Desktop Navigation */}
         <div className="hidden md:flex space-x-8 absolute left-1/2 -translate-x-1/2">
@@ -84,7 +84,7 @@ const Navbar = () => {
 
       {/* Mobile Navigation */}
       <motion.div 
-        className="md:hidden overflow-hidden bg-white"
+        className="md:hidden overflow-hidden bg-black/50 backdrop-blur-2xl border-t border-white/10"
         initial="closed"
         animate={isOpen ? "open" : "closed"}
         variants={menuVariants}

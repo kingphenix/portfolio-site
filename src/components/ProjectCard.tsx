@@ -16,13 +16,13 @@ export interface ProjectProps {
 export default function ProjectCard({ title, description, imageSrc, tags, liveUrl, githubUrl }: ProjectProps) {
   return (
     <motion.div 
-      className="bg-background border border-gray-800 rounded-lg overflow-hidden h-full flex flex-col"
+      className="bg-black/40 backdrop-blur-sm border border-white/10 rounded-lg overflow-hidden h-full flex flex-col relative group"
       whileHover={{ 
-        y: -5,
-        boxShadow: '0 10px 30px -15px rgba(156, 39, 176, 0.3)',
-        background: 'linear-gradient(to bottom right, rgba(156, 39, 176, 0.05), rgba(0, 0, 0, 0))'
+        y: -8,
+        boxShadow: '0 0 60px -10px rgba(255, 0, 255, 0.6), 0 0 40px -10px rgba(0, 255, 255, 0.4)',
+        borderColor: 'rgba(255, 0, 255, 0.5)',
       }}
-      transition={{ duration: 0.2 }}
+      transition={{ duration: 0.3, ease: 'easeOut' }}
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -39,7 +39,7 @@ export default function ProjectCard({ title, description, imageSrc, tags, liveUr
       
       {/* Content */}
       <div className="p-6 flex flex-col flex-grow">
-        <h3 className="text-xl font-bold mb-2">{title}</h3>
+        <h3 className="text-xl font-bold mb-2 text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-[#FF00FF] group-hover:to-[#00FFFF] transition-all duration-300">{title}</h3>
         <p className="text-textSecondary mb-4 flex-grow">{description}</p>
         
         {/* Tags */}

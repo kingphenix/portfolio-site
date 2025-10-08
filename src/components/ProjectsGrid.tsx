@@ -4,64 +4,74 @@ import React, { useRef, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import ProjectCard, { ProjectProps } from './ProjectCard';
 
-// Sample project data
-const projects: ProjectProps[] = [
-  {
-    title: 'Modern E-commerce Platform',
-    description: 'A full-featured online store with cart functionality, payment processing, and admin dashboard.',
-    imageSrc: '/placeholder-profile.svg', // Replace with actual project image
-    tags: ['Frontend', 'API', 'UI/UX'],
-    liveUrl: 'https://example.com',
-    githubUrl: 'https://github.com/example/project'
-  },
-  {
-    title: 'Workflow Automation Tool',
-    description: 'Custom n8n workflows that connect various services and automate repetitive tasks.',
-    imageSrc: '/placeholder-profile.svg', // Replace with actual project image
-    tags: ['Automation', 'API'],
-    liveUrl: 'https://example.com',
-    githubUrl: 'https://github.com/example/project'
-  },
-  {
-    title: 'Portfolio Website',
-    description: 'A responsive portfolio site built with Next.js, Tailwind CSS, and Framer Motion.',
-    imageSrc: '/placeholder-profile.svg', // Replace with actual project image
-    tags: ['Frontend', 'UI/UX'],
-    liveUrl: 'https://example.com',
-    githubUrl: 'https://github.com/example/project'
-  },
-  {
-    title: 'API Integration Service',
-    description: 'A service that connects multiple APIs and provides a unified interface for data access.',
-    imageSrc: '/placeholder-profile.svg', // Replace with actual project image
-    tags: ['API', 'Automation'],
-    liveUrl: 'https://example.com',
-    githubUrl: 'https://github.com/example/project'
-  },
-  {
-    title: 'Dashboard UI',
-    description: 'A clean, modern dashboard interface with interactive charts and data visualization.',
-    imageSrc: '/placeholder-profile.svg', // Replace with actual project image
-    tags: ['Frontend', 'UI/UX'],
-    liveUrl: 'https://example.com',
-    githubUrl: 'https://github.com/example/project'
-  },
-  {
-    title: 'Mobile App Prototype',
-    description: 'A prototype for a mobile application with focus on user experience and clean design.',
-    imageSrc: '/placeholder-profile.svg', // Replace with actual project image
-    tags: ['UI/UX', 'Frontend'],
-    liveUrl: 'https://example.com',
-    githubUrl: 'https://github.com/example/project'
-  }
-];
-
 export default function ProjectsGrid() {
+  const [projects, setProjects] = useState<ProjectProps[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
+  
+  // Load projects from public JSON
+  useEffect(() => {
+    let mounted = true;
+    const load = async () => {
+      try {
+        const res = await fetch('/data/projects.json', { cache: 'force-cache' });
+        if (!res.ok) throw new Error('Failed to load projects.json');
+        const data = await res.json();
+        if (mounted) setProjects(data as ProjectProps[]);
+      } catch (e: any) {
+        if (mounted) setError(e?.message ?? 'Failed to load projects');
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    };
+    load();
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  // Handle touch events for swiping on mobile
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStart - touchEnd > 75) {
+      // Swipe left
+      if (currentIndex < projects.length - 1) {
+        setCurrentIndex((i) => i + 1);
+      }
+    }
+    if (touchStart - touchEnd < -75) {
+      // Swipe right
+      if (currentIndex > 0) {
+        setCurrentIndex((i) => i - 1);
+      }
+    }
+  };
+
+  // Navigation buttons for mobile
+  const goToPrevious = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex((i) => i - 1);
+    }
+  };
+
+  const goToNext = () => {
+    if (currentIndex < projects.length - 1) {
+      setCurrentIndex((i) => i + 1);
+    }
+  };
   
   // Check if we're on mobile
   useEffect(() => {
@@ -77,44 +87,20 @@ export default function ProjectsGrid() {
     };
   }, []);
   
-  // Handle touch events for swiping on mobile
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setTouchStart(e.targetTouches[0].clientX);
-  };
-  
-  const handleTouchMove = (e: React.TouchEvent) => {
-    setTouchEnd(e.targetTouches[0].clientX);
-  };
-  
-  const handleTouchEnd = () => {
-    if (touchStart - touchEnd > 75) {
-      // Swipe left
-      if (currentIndex < projects.length - 1) {
-        setCurrentIndex(currentIndex + 1);
-      }
-    }
-    
-    if (touchStart - touchEnd < -75) {
-      // Swipe right
-      if (currentIndex > 0) {
-        setCurrentIndex(currentIndex - 1);
-      }
-    }
-  };
-  
-  // Navigation buttons for mobile
-  const goToPrevious = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1);
-    }
-  };
-  
-  const goToNext = () => {
-    if (currentIndex < projects.length - 1) {
-      setCurrentIndex(currentIndex + 1);
-    }
-  };
-  
+  if (loading) {
+    return (
+      <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <div key={i} className="h-64 rounded-lg bg-white/5 animate-pulse" />
+        ))}
+      </div>
+    );
+  }
+
+  if (error) {
+    return <div className="text-center text-red-400">{error}</div>;
+  }
+
   return (
     <div className="w-full">
       {/* Desktop Grid View */}

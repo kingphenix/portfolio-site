@@ -9,9 +9,14 @@ module.exports = {
     extend: {
       colors: {
         primary: '#6C63FF',
-        background: '#0E0E0E',
+        background: '#0A0A0A',
         text: '#FFFFFF',
         textSecondary: '#BFBFBF',
+        'neon-magenta': '#FF00FF',
+        'electric-cyan': '#00FFFF',
+        'void-black': '#0A0A0A',
+        'neon-magenta-rgb': '255, 0, 255',
+        'electric-cyan-rgb': '0, 255, 255',
         accent: {
           DEFAULT: '#6C63FF',
           secondary: '#A259FF'
@@ -27,4 +32,5 @@ module.exports = {
     },
   },
   plugins: [],
+  darkMode: 'class',
 }
